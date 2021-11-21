@@ -1,0 +1,23 @@
+curl -F “url=https://95ef-116-68-111-200.ngrok.io/c817304a3d163ebd58b44dd446eba29572300724098cdbca1a/“ https://api.telegram.org/bot2107502935:AAFFG4hKkGfNDJltz4BvIUTnqqfzV18Y5N0/setWebhook
+
+
+
+
+{u'message': 
+	{u'date': 1637431547,
+	 u'text': u'Google', 
+	 u'from': {u'username': u'Faller1',
+	 		   u'first_name': u'prabhu',
+	 		   u'is_bot': False,
+	 		   u'id': 527386887,
+	 		   u'language_code': u'en'
+	 		   },
+	 		   u'message_id': 49,
+	 		   u'chat': {u'username': u'Faller1',
+	 		   			 u'first_name': u'prabhu',
+	 		   			 u'type': u'private',
+	 		   			 u'id': 527386887
+	 		   			 }
+	},
+	 		   	u'update_id': 369325090
+}

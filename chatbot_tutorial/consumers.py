@@ -24,6 +24,7 @@ def ws_receive(message):
     # encoding/decoding
     # for you as well as handling common errors.
     payload = json.loads(message['text'])
+    print(payload)
     payload['reply_channel'] = message.content['reply_channel']
     Channel("chat.receive").send(payload)
 
@@ -52,7 +53,7 @@ def chat_leave(message):
 
 
 def chat_send(message):
-
+    print(message)
     # First send the candidate message in the right format for
     # chatbot to print it on the message channel
     message_to_send_content = {

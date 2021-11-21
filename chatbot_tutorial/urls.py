@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import chat
+from .views import *
 
 urlpatterns = [
-	url(r'^chat/$', chat, name='chat'),
-    url(r'^admin/', admin.site.urls)
+	url(r'^chat/', chat, name='chat'),
+    url(r'^admin/', admin.site.urls),
+    url(r'^c817304a3d163ebd58b44dd446eba29572300724098cdbca1a/?$', YoMamaBotView.as_view())
 ]
