@@ -50,42 +50,51 @@ def respond_to_websockets(message):
 
     return result_message
     
+jkeys = ["fat","stupid","dumb"]
 
-class YoMamaBotView(generic.View):
-    # The get method is the same as before.. omitted here for brevity
+class JokerBotView(generic.View):
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
 
 
     def post(self, request, *args, **kwargs):
-        # Converts the text payload into a python dictionary
         incoming_message = json.loads(self.request.body.decode('utf-8'))
-        print(incoming_message)
+        # print(incoming_message)
         if incoming_message["message"] != "":
             userid = incoming_message["message"]["from"]["id"]
-            if incoming_message["message"]["text"] == "/start":
-                custom_keyboard = [[ telegram.KeyboardButton("fat"),
-                telegram.KeyboardButton("stupid"),telegram.KeyboardButton("dumb") ]]
-                reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-                bot.sendMessage(chat_id=userid, text="Please select one", reply_markup=reply_markup)
             text = incoming_message["message"]["text"]
-            # userid = incoming_message["message"]["from"]["id"]
-            username = incoming_message["message"]["from"]["username"]
-            UserData.objects.create(userid=userid,user_name=username)
-            # print(incoming_message["message"]["from"]["id"])
-            message = {'text':text}
-            response = respond_to_websockets(message)
-            send_message(response["text"],userid)
+            custom_keyboard = [[ telegram.KeyboardButton("fat"),
+            telegram.KeyboardButton("stupid"),telegram.KeyboardButton("dumb") ]]
+            reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+            if text == "/start":
+                bot.sendMessage(chat_id = userid,text = "Please select one",reply_markup = reply_markup)
+            elif text not in jkeys:
+                response = respond_to_websockets({'text':text})
+                bot.sendMessage(chat_id = userid,text = response["text"] ,reply_markup = reply_markup)
+            else:
+                response = respond_to_websockets({'text':text})
+                bot.sendMessage(chat_id = userid,text = response["text"] ,reply_markup = reply_markup)
+                username = incoming_message["message"]["from"]["username"]
+                try:
+                    obj = UserData.objects.get(userid=userid)
+                    save_count(obj,text)
+                except UserData.DoesNotExist:
+                    obj = UserData.objects.create(userid=userid,user_name=username)
+                    save_count(obj,text)
         else:
             pass
-        return HttpResponse(response)
+        return HttpResponse()
 
 
-def send_message(message, chat_id):
-        data = {
-            "chat_id": chat_id,
-            "text": message,
-            "parse_mode": "Markdown",
-        }
-        response = requests.post(TELEGRAM_URL+TOKEN+"/sendMessage", data=data)
+def save_count(obj,text):
+    if text == "fat":
+        obj.fat_count = obj.fat_count + 1
+    elif text == "stupid":
+        obj.stupid_count = obj.stupid_count + 1
+    elif text == "dumb":
+        obj.dumb_count = obj.dumb_count + 1
+    else:
+        pass
+    obj.save()

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Joker Bot</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Bot User Data</h2>
+  <p>User data with number of calls to each joke type.</p>           
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Fat Calls</th>
+        <th>Stupid Calls</th>
+        <th>Dumb Calls</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for x in objects_list %}
+      <tr>
+        <td>{{x.userid}}</td>
+        <td>{{x.user_name}}</td>
+        <td>{{x.fat_count}}</td>
+        <td>{{x.stupid_count}}</td>
+        <td>{{x.dumb_count}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
